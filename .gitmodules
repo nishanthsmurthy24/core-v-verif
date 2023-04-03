@@ -1,0 +1,18 @@
+[submodule "core-v-cores/cva6"]
+	path = core-v-cores/cva6
+	url = https://github.com/openhwgroup/cva6.git
+[submodule "cva6/sim/dv"]
+	path = cva6/sim/dv
+	url = https://github.com/google/riscv-dv.git
+[submodule "cva6/tests/riscv-arch-test"]
+	path = cva6/tests/riscv-arch-test
+	url = https://github.com/riscv-non-isa/riscv-arch-test
+[submodule "cva6/tests/riscv-compliance"]
+	path = cva6/tests/riscv-compliance
+	url = https://github.com/riscv/riscv-compliance.git
+[submodule "cva6/tests/riscv-tests"]
+	path = cva6/tests/riscv-tests
+	url = https://github.com/riscv/riscv-tests.git
+[submodule "cva6/tests/riscv-isa-sim"]
+	path = cva6/tests/riscv-isa-sim
+	url = https://github.com/riscv-software-src/riscv-isa-sim.git
