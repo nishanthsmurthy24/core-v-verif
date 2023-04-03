@@ -69,7 +69,9 @@ module cva6_tb_wrapper #(
     .ipi_i                ( 1'b0  /*ipi*/             ),
     .time_irq_i           ( 1'b0  /*timer_irq*/       ),
     .debug_req_i          ( 1'b0                      ),
+    `ifdef RVFI_TRACE 
     .rvfi_o               ( rvfi                      ),
+    `endif
     .cvxif_req_o          ( cvxif_req                 ),
     .cvxif_resp_i         ( cvxif_resp                ),
     .axi_req_o            ( axi_ariane_req            ),

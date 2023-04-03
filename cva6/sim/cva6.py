@@ -904,10 +904,21 @@ def load_config(args, cwd):
       args.mabi = "lp64"
       args.isa  = "rv64imc"
     elif args.target == "hwconfig":
-      current_path = os.getcwd()
-      os.chdir(os.getcwd()+"/../../core-v-cores/cva6")
-      [args.isa,args.mabi, args.target, args.hwconfig_opts] = generate_config(args.hwconfig_opts.split())
-      os.chdir(current_path)
+      
+      #current_path = os.getcwd()
+      #os.chdir(os.getcwd()+"/../../core-v-cores/cva6")
+      #[args.isa,args.mabi, args.target, args.hwconfig_opts] = generate_config(args.hwconfig_opts.split())
+      args.hwconfig_opts = {'xlen': 64, 'fpu': 1, 'F16En': 0, 'F16AltEn': 0, 'F8En': 0, 'FVecEn': 0, 'cvxif': 1, 'c_ext': 1, 'a_ext': 1, 'iuser_en': 0, 'iuser_w': 64, 'duser_en': 0, 'duser_w': 64, 'RenameEn': 0, 'IcacheSetAssoc': 4, 'DcacheSetAssoc': 8, 'NrCommitPorts': 2, 'NrScoreboardEntries': 8, 'FPGAEn': 0, 'NrLoadPipeRegs': 1, 'NrStorePipeRegs': 0, 'InstrTlbEntries': 16, 'DataTlbEntries': 16, 'RASDepth': 2, 'BTBEntries': 32, 'BHTEntries': 128}
+      
+      print(args.isa)
+      print('\n')
+      print(args.mabi)
+      print('\n')
+      print(args.target)
+      print('\n')
+      print(args.hwconfig_opts)
+      print('\n')
+      #os.chdir(current_path)
     else:
       sys.exit("Unsupported pre-defined target: %0s" % args.target)
     args.core_setting_dir = cwd + "/dv" + "/target/"+ args.isa
@@ -1018,6 +1029,7 @@ def main():
 
     if not args.co:
       process_regression_list(args.testlist, args.test, args.iterations, matched_list, cwd)
+      cfg["hwconfig_opts"] = {'xlen': 64, 'fpu': 1, 'F16En': 0, 'F16AltEn': 0, 'F8En': 0, 'FVecEn': 0, 'cvxif': 1, 'c_ext': 1, 'a_ext': 1, 'iuser_en': 0, 'iuser_w': 64, 'duser_en': 0, 'duser_w': 64, 'RenameEn': 0, 'IcacheSetAssoc': 4, 'DcacheSetAssoc': 8, 'NrCommitPorts': 2, 'NrScoreboardEntries': 8, 'FPGAEn': 0, 'NrLoadPipeRegs': 1, 'NrStorePipeRegs': 0, 'InstrTlbEntries': 16, 'DataTlbEntries': 16, 'RASDepth': 2, 'BTBEntries': 32, 'BHTEntries': 128}
       logging.info('CVA6 Configuration is %s'% cfg["hwconfig_opts"])
       for entry in list(matched_list):
         yaml_needs = entry["needs"] if "needs" in entry else []

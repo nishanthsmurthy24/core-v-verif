@@ -13,8 +13,8 @@ root-dir    := $(dir $(mkfile_path))
 ifndef CVA6_REPO_DIR
 $(warning must set CVA6_REPO_DIR to point at the root of CVA6 sources and CVA6_TB_DIR to point here -- doing it for you...)
 export CVA6_REPO_DIR = $(abspath $(root-dir)../../core-v-cores/cva6/)
-export CVA6_TB_DIR   = $(root-dir)/../tb/core
-export CORE_V_VERIF  = $(root-dir)/../..
+export CVA6_TB_DIR   = $(root-dir)../tb/core
+export CORE_V_VERIF  = $(root-dir)../..
 endif
 
 .DEFAULT_GOAL := help
@@ -98,7 +98,7 @@ endif
 # Spike specific commands, variables
 ###############################################################################
 spike:
-	$(tool_path)/spike --log-commits --isa=$(variant) -l $(elf)
+	spike --log-commits --isa=$(variant) -l $(elf)
 	cp $(log).iss $(log)
 
 ###############################################################################
@@ -122,6 +122,7 @@ veri-testharness:
 ###############################################################################
 # UVM specific commands, variables
 ###############################################################################
+UVM_SRC					= /apps/common/synopsys/vcs_2017.12/etc/uvm-1.2/src
 ALL_VCS_FLAGS           = $(if $(VERDI), -kdb -debug_access+all -lca,) -sverilog -full64 -timescale=1ns/1ns
 VCS_WORK_DIR            = $(CORE_V_VERIF)/cva6/sim/vcs_results/default/vcs.d
 SIMV                    = $(VCS_WORK_DIR)/simv
@@ -155,9 +156,9 @@ export DV_OVPM_HOME           = $(CORE_V_VERIF)/$(CV_CORE_LC)/vendor_lib/imperas
 export DV_OVPM_MODEL          = $(DV_OVPM_HOME)/riscv_$(CV_CORE_UC)_OVPsim
 export DV_OVPM_DESIGN         = $(DV_OVPM_HOME)/design
 
-ALL_UVM_FLAGS           = -lca -sverilog +incdir+/opt/synopsys/vcs-mx/O-2018.09-SP1-1/etc/uvm/src \
-	  /opt/synopsys/vcs-mx/O-2018.09-SP1-1/etc/uvm/src/uvm_pkg.sv +UVM_VERBOSITY=UVM_MEDIUM -ntb_opts uvm-1.2 -timescale=1ns/1ps \
-	  -assert svaext -race=all -ignore unique_checks -full64 -q +incdir+/opt/synopsys/vcs-mx/O-2018.09-SP1-1/etc/uvm/src \
+ALL_UVM_FLAGS           = -lca -sverilog +incdir+$(UVM_SRC) \
+	  $(UVM_SRC)/uvm_pkg.sv +UVM_VERBOSITY=UVM_MEDIUM -ntb_opts uvm-1.2 -timescale=1ns/1ps \
+	  -assert svaext -race=all -ignore unique_checks -full64 -q +incdir+$(UVM_SRC) \
 	  +incdir+$(CORE_V_VERIF)/$(CV_CORE_LC)/env/uvme +incdir+$(CORE_V_VERIF)/$(CV_CORE_LC)/tb/uvmt \
 	  $(if $(DEBUG), -debug_access+all $(if $(VERDI), -kdb) $(if $(TRACE_COMPACT),+vcs+fsdbon))
 
