@@ -1,0 +1,5 @@
+vcs -lca -sverilog +incdir+/apps/common/synopsys/vcs_2017.12/etc/uvm-1.2/src /apps/common/synopsys/vcs_2017.12/etc/uvm-1.2/src/uvm_pkg.sv +UVM_VERBOSITY=UVM_MEDIUM -ntb_opts uvm-1.2 -timescale=1ns/1ps -assert svaext -race=all -ignore unique_checks -full64 -q +incdir+/apps/common/synopsys/vcs_2017.12/etc/uvm-1.2/src +incdir+../../cva6/env/uvme +incdir+../../cva6/tb/uvmt -debug_access+all -f uvmt/Flist.cva6 -cm line+cond+fsm+tgl+assert -cm_hier ../sim/cov-exclude-mod.lst -top cva6_tb_top
+
+simv -licwait 20 -l +ntb_random_seed=1 -sv_lib ../../lib/dpi_dasm/lib/Linux64/libdpi_dasm +signature=I-ADD-01.signature_output ++add +PRELOAD=add -sv_lib work-dpi/ariane_dpi -cm line+cond+fsm+tgl+assert
+
+python3 cva6.py --testlist=../tests/testlist_riscv-tests-cv64a6_imafdc_sv39-p.yaml --target cv64a6_imafdc_sv39 --iss=vcs-uvm,spike --iss_yaml=cva6.yaml
