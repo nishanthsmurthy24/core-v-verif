@@ -125,6 +125,13 @@ module uvmt_cva6_tb;
 
       $display("\n%m: *** Test Summary ***\n");
 
+      $display("\nUVM_ERROR = %d\n", err_count);
+      $display("UVM_FATAL = %d\n", fatal_count);
+      $display("UVM_WARNING = %d\n", warning_count);
+      $display("SIM_FINISHED? = %d\n", sim_finished);
+
+
+
       if (sim_finished && (err_count == 0) && (fatal_count == 0)) begin
          $display("    PPPPPPP    AAAAAA    SSSSSS    SSSSSS   EEEEEEEE  DDDDDDD     ");
          $display("    PP    PP  AA    AA  SS    SS  SS    SS  EE        DD    DD    ");

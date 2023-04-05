@@ -226,9 +226,11 @@ endfunction : connect_phase
 
 task uvmt_cva6_base_test_c::run_phase(uvm_phase phase);
 
+   phase.raise_objection(this);
    super.run_phase(phase);
 
    watchdog_timer();
+   phase.drop_objection(this);
 
 endtask : run_phase
 
@@ -250,8 +252,9 @@ endtask : reset_phase
 
 task uvmt_cva6_base_test_c::configure_phase(uvm_phase phase);
 
+   
    uvm_status_e status;
-
+   phase.raise_objection(this);
    //super.configure_phase(phase);
 
    //`uvm_info("BASE TEST", $sformatf("Starting to update DUT with RAL contents:\n%s", ral.sprint()), UVM_NONE)
@@ -261,6 +264,8 @@ task uvmt_cva6_base_test_c::configure_phase(uvm_phase phase);
    //TODO: is this OK?!?
    super.configure_phase(phase);
    `uvm_info("BASE TEST", "configure_phase() complete", UVM_HIGH)
+
+   phase.drop_objection(this);
 
 endtask : configure_phase
 

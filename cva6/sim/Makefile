@@ -159,12 +159,12 @@ export DV_OVPM_DESIGN         = $(DV_OVPM_HOME)/design
 ALL_UVM_FLAGS           = -lca -sverilog +incdir+$(UVM_SRC) \
 	  $(UVM_SRC)/uvm_pkg.sv +UVM_VERBOSITY=UVM_MEDIUM -ntb_opts uvm-1.2 -timescale=1ns/1ps \
 	  -assert svaext -race=all -ignore unique_checks -full64 -q +incdir+$(UVM_SRC) \
-	  +incdir+$(CORE_V_VERIF)/$(CV_CORE_LC)/env/uvme +incdir+$(CORE_V_VERIF)/$(CV_CORE_LC)/tb/uvmt \
+	  +incdir+$(CORE_V_VERIF)/$(CV_CORE_LC)/env/uvme +incdir+$(CORE_V_VERIF)/$(CV_CORE_LC)/tb/uvmt -debug_access+all \
 	  $(if $(DEBUG), -debug_access+all $(if $(VERDI), -kdb) $(if $(TRACE_COMPACT),+vcs+fsdbon))
 
 ALL_SIMV_UVM_FLAGS      = -licwait 20 -l +ntb_random_seed=1 \
 		-sv_lib $(CORE_V_VERIF)/lib/dpi_dasm/lib/Linux64/libdpi_dasm +signature=I-ADD-01.signature_output \
-		+UVM_TESTNAME=uvmt_cva6_firmware_test_c
+		+UVM_TESTNAME=uvmt_cva6_firmware_test_c -ucli -do $(CORE_V_VERIF)/cva6/sim/init_run_uvm_vpd.do
 
 ifneq ($(DEBUG),)               # If RTL DEBUG support requested
   ifneq ($(VERDI),)             #   If VERDI interactive mode requested, use GUI and do not run simulation
@@ -210,8 +210,8 @@ vcs_uvm_run:
 	-sv_lib $(dpi-library)/ariane_dpi \
 	$(cov-run-opt) $(issrun_opts) && \
 	mv $(VCS_WORK_DIR)/trace_rvfi_hart_00.dasm $(CORE_V_VERIF)/cva6/sim/ && \
-	{ [ -z "`ls $(VCS_WORK_DIR)/*.$(SIMV_TRACE_EXTN)`" ] || \
-	  for i in `ls $(VCS_WORK_DIR)/*.$(SIMV_TRACE_EXTN)` ; do mv $$i $(CORE_V_VERIF)/cva6/sim/`basename $$i` ; done || \
+	{ [ -z "`ls $(VCS_WORK_DIR)/*.vpd`" ] || \
+	  for i in `ls $(VCS_WORK_DIR)/*.vpd` ; do mv $$i $(CORE_V_VERIF)/cva6/sim/`basename $$i` ; done || \
 	  true ; }
 
 vcs-uvm:
@@ -219,8 +219,8 @@ vcs-uvm:
 	make vcs_uvm_run
 	$(tool_path)/spike-dasm --isa=$(variant) < ./trace_rvfi_hart_00.dasm > $(log)
 	grep $(isspostrun_opts) ./trace_rvfi_hart_00.dasm
-	[ -z "`ls *.$(SIMV_TRACE_EXTN)`" ] || \
-          for i in `ls *.$(SIMV_TRACE_EXTN)` ; do mv $$i `dirname $(log)`/`basename $(log) .log`.$(target).$$i ; done || true
+	[ -z "`ls *.vpd`" ] || \
+          for i in `ls *.vpd` ; do mv $$i `dirname $(log)`/`basename $(log) .log`.$(target).$$i ; done || true
 
 generate_cov_dash:
 	urg -dir $(VCS_WORK_DIR)/simv.vdb
