@@ -742,7 +742,7 @@ def setup_parser():
                       help="Verbose logging")
   parser.add_argument("--co", dest="co", action="store_true", default=False,
                       help="Compile the generator only")
-  parser.add_argument("--cov", dest="cov", action="store_true", default=False,
+  parser.add_argument("--cov", dest="cov", action="store_true", default=True,
                       help="Enable functional coverage")
   parser.add_argument("--so", dest="so", action="store_true", default=False,
                       help="Simulate the generator only")

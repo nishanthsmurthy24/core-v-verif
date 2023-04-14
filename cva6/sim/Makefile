@@ -87,8 +87,8 @@ endif
 cov-exclude-list ?= $(root-dir)/cov-exclude-mod.lst
 
 ifdef cov
-	cov-comp-opt = -cm line+cond+fsm+tgl+assert -cm_hier $(cov-exclude-list)
-	cov-run-opt  = -cm line+cond+fsm+tgl+assert -cm_name $(TESTNAME)
+	cov-comp-opt = -cm line+cond+fsm+tgl+branch+assert -cm_hier $(cov-exclude-list)
+	cov-run-opt  = -cm line+cond+fsm+tgl+branch+assert -cm_name $(TESTNAME)
 else
 	cov-comp-opt =
 	cov-run-opt  =
@@ -156,15 +156,15 @@ export DV_OVPM_HOME           = $(CORE_V_VERIF)/$(CV_CORE_LC)/vendor_lib/imperas
 export DV_OVPM_MODEL          = $(DV_OVPM_HOME)/riscv_$(CV_CORE_UC)_OVPsim
 export DV_OVPM_DESIGN         = $(DV_OVPM_HOME)/design
 
-ALL_UVM_FLAGS           = -lca -sverilog +incdir+$(UVM_SRC) \
-	  $(UVM_SRC)/uvm_pkg.sv +UVM_VERBOSITY=UVM_MEDIUM -ntb_opts uvm-1.2 -timescale=1ns/1ps \
+ALL_UVM_FLAGS           = -lca +v2k -sverilog +define+ASSERT_ON +incdir+$(UVM_SRC) \
+	  $(UVM_SRC)/uvm_pkg.sv +UVM_VERBOSITY=UVM_DEBUG -ntb_opts uvm-1.2 -timescale=1ns/1ps \
 	  -assert svaext -race=all -ignore unique_checks -full64 -q +incdir+$(UVM_SRC) \
 	  +incdir+$(CORE_V_VERIF)/$(CV_CORE_LC)/env/uvme +incdir+$(CORE_V_VERIF)/$(CV_CORE_LC)/tb/uvmt -debug_access+all \
 	  $(if $(DEBUG), -debug_access+all $(if $(VERDI), -kdb) $(if $(TRACE_COMPACT),+vcs+fsdbon))
 
 ALL_SIMV_UVM_FLAGS      = -licwait 20 -l +ntb_random_seed=1 \
 		-sv_lib $(CORE_V_VERIF)/lib/dpi_dasm/lib/Linux64/libdpi_dasm +signature=I-ADD-01.signature_output \
-		+UVM_TESTNAME=uvmt_cva6_firmware_test_c -ucli -do $(CORE_V_VERIF)/cva6/sim/init_run_uvm_vpd.do
+		+UVM_TESTNAME=uvmt_cva6_firmware_test_c +UVM_VERBOSITY=UVM_DEBUG -ucli -do $(CORE_V_VERIF)/cva6/sim/init_run_uvm_vpd.do
 
 ifneq ($(DEBUG),)               # If RTL DEBUG support requested
   ifneq ($(VERDI),)             #   If VERDI interactive mode requested, use GUI and do not run simulation

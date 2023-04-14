@@ -33,6 +33,8 @@ class uvme_cva6_prd_c extends uvm_component;
    // Input TLM
    uvm_analysis_export  #(uvma_clknrst_mon_trn_c)  clknrst_export;
    uvm_tlm_analysis_fifo#(uvma_clknrst_mon_trn_c)  clknrst_fifo;
+   // uvm_analysis_export  #(uvma_debug_mon_trn_c)    debug_export;
+   // uvm_tlm_analysis_fifo#(uvma_debug_mon_trn_c)    debug_fifo;
 
    `uvm_component_utils_begin(uvme_cva6_prd_c)
       `uvm_field_object(cfg  , UVM_DEFAULT)

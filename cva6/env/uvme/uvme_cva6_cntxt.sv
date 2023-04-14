@@ -27,6 +27,8 @@
  */
 class uvme_cva6_cntxt_c extends uvm_object;
 
+   virtual uvmt_rvfi_if rvfi_vif;
+
    // Agent context handles
    uvma_clknrst_cntxt_c    clknrst_cntxt;
    uvma_cvxif_cntxt_c      cvxif_cntxt;
