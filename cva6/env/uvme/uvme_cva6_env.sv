@@ -22,7 +22,7 @@
 `define __UVME_CVA6_ENV_SV__
 
 // Forward Declarations
-// typedef class uvme_cva6_vp_sig_writer_seq_c;
+typedef class uvme_cva6_vp_sig_writer_seq_c;
 
 /**
  * Top-level component that encapsulates, builds and connects all other
@@ -163,11 +163,10 @@ function void uvme_cva6_env_c::build_phase(uvm_phase phase);
       if (cfg.is_active) begin
          create_vsequencer();
       end
-      // if (cfg.cov_model_enabled) begin
-      //    create_cov_model();
-      // end
+      if (cfg.cov_model_enabled) begin
+         create_cov_model();
+      end
 
-      
    end
 
 endfunction : build_phase
@@ -279,9 +278,19 @@ endfunction: assemble_vsequencer
 
 task uvme_cva6_env_c::run_phase(uvm_phase phase);
 
-            uvma_cvxif_seq_c        cvxif_seq;
-            cvxif_seq = uvma_cvxif_seq_c::type_id::create("cvxif_seq");
-            cvxif_seq.start(cvxif_agent.sequencer);
+   // uvma_cvxif_seq_c        cvxif_seq;
+   // cvxif_seq = uvma_cvxif_seq_c::type_id::create("cvxif_seq");
+   // cvxif_seq.start(cvxif_agent.sequencer);
+   if(cfg.is_active) begin
+      fork
+         begin
+            uvme_cva6_vp_sig_writer_seq_c vp_seq; 
+            vp_seq.cva6_cntxt = cntxt;
+         end
+         
+      join_none
+   end
+   
 
 
 endtask

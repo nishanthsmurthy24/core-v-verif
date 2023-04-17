@@ -59,6 +59,7 @@ endclass
 
 task uvma_cvxif_seq_c::body();
 
+   `uvm_info("CVXIF_SEQ", $sformatf("This is starting at time = %t", $time), UVM_NONE);
    forever begin
       // wait for a transaction request (get is blocking)
       `uvm_info(info_tag, $sformatf("Waiting for the transaction request from monitor"), UVM_HIGH);
@@ -82,7 +83,7 @@ task uvma_cvxif_seq_c::body();
          end
       end
    end
-
+   `uvm_info("CVXIF_SEQ", $sformatf("This is ending at time = %t", $time), UVM_NONE);
 endtask
 
 function uvma_cvxif_seq_c::new(string name="uvma_cvxif_seq");

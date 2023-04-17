@@ -65,8 +65,10 @@ package uvme_cva6_pkg;
    // Virtual sequences
    `include "uvme_cva6_base_vseq.sv"
    `include "uvme_cva6_reset_vseq.sv"
+   `include "uvme_cva6_vp_sig_writer_seq.sv"
 //   `include "uvme_cva6_interrupt_noise_vseq.sv"
    `include "uvme_cva6_vseq_lib.sv"
+   
 
 
 
