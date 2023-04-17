@@ -107,6 +107,11 @@ class uvme_cva6_env_c extends uvm_env;
    extern virtual function void create_vsequencer();
 
    /**
+    * Creates environment's coverage model.
+    */
+   extern virtual function void create_cov_model();
+
+   /**
     * Connects agents to predictor.
     */
    extern virtual function void connect_predictor();
@@ -247,6 +252,11 @@ function void uvme_cva6_env_c::create_vsequencer();
 
 endfunction: create_vsequencer
 
+function void uvme_cva6_env_c::create_cov_model();
+
+   cov_model = uvme_cva6_cov_model_c::type_id::create("cov_model", this);
+
+endfunction: create_cov_model
 
 function void uvme_cva6_env_c::connect_predictor();
 
